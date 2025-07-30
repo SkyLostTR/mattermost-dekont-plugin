@@ -1,0 +1,78 @@
+# Jekyll configuration for GitHub Pages
+title: "Mattermost PDF Dekont Parser Plugin"
+description: "A Mattermost plugin that automatically parses PDF bank receipts and extracts transaction details"
+author: "SkyLostTR"
+email: "contact@skylosttr.dev"
+baseurl: "/mattermost-dekont-plugin"
+url: "https://skylosttr.github.io"
+
+# Theme
+theme: minima
+remote_theme: pages-themes/cayman@v0.2.0
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Navigation
+header_pages:
+  - index.md
+  - installation.md
+  - usage.md
+  - banks.md
+  - development.md
+  - api.md
+  - contributing.md
+  - changelog.md
+
+# SEO
+lang: en_US
+twitter:
+  username: SkyLostTR
+  card: summary
+
+social:
+  name: SkyLostTR
+  links:
+    - https://github.com/SkyLostTR
+
+# Repository
+repository: "SkyLostTR/mattermost-dekont-plugin"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+
+# Exclude files
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - "*.gemspec"
+  - README.md
+
+# Collections
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:name/
+
+# Default settings
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: ""
+      type: "docs"
+    values:
+      layout: "default"

@@ -64,7 +64,17 @@
 
 A Mattermost plugin that automatically parses PDF bank receipts (dekont) and extracts transaction details to display them in a structured format.
 
-## 📋 Table of Contents
+## � Documentation
+
+📚 **[Complete Documentation Website](https://skylosttr.github.io/mattermost-dekont-plugin)** - Comprehensive guides, API reference, and examples
+
+Quick Links:
+- 🚀 [Installation Guide](https://skylosttr.github.io/mattermost-dekont-plugin/installation.html)
+- 📘 [Usage Guide](https://skylosttr.github.io/mattermost-dekont-plugin/usage.html)
+- 🏦 [Supported Banks](https://skylosttr.github.io/mattermost-dekont-plugin/banks.html)
+- 💻 [Development Guide](https://skylosttr.github.io/mattermost-dekont-plugin/development.html)
+
+## �📋 Table of Contents
 
 - [Features](#features)
 - [Supported Banks](#supported-banks)

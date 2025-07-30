@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://skylosttr.github.io/mattermost-dekont-plugin/sitemap.xml
