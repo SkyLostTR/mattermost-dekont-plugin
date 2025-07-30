@@ -1,0 +1,76 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Mattermost Plugin",
+            "type": "shell",
+            "command": "go",
+            "args": ["build", "-o", "plugin.exe"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": ["$go"]
+        },
+        {
+            "label": "Install Dependencies",
+            "type": "shell",
+            "command": "go",
+            "args": ["mod", "tidy"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Create Plugin Bundle",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-Command",
+                "mkdir -Force dist/server; cp plugin.exe dist/server/plugin-windows-amd64.exe; cp plugin.json dist/; cd dist; tar -czf ../mattermost-dekont-plugin-1.0.0.tar.gz *"
+            ],
+            "group": "build",
+            "dependsOn": "Build Mattermost Plugin",
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Clean Build",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-Command",
+                "Remove-Item -Force -ErrorAction SilentlyContinue plugin.exe, *.tar.gz; Remove-Item -Recurse -Force -ErrorAction SilentlyContinue dist/"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        }
+    ]
+}
