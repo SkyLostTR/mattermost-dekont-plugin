@@ -33,8 +33,8 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1'
-          bundler-cache: true
+          ruby-version: '3.2'
+          bundler-cache: false
           working-directory: docs
 
       - name: Setup Pages
@@ -46,19 +46,21 @@ jobs:
           cat > docs/Gemfile << EOF
           source "https://rubygems.org"
           
-          gem "jekyll", "~> 4.3.0"
+          gem "jekyll", "~> 4.3.2"
           gem "minima", "~> 2.5"
-          gem "github-pages", group: :jekyll_plugins
           gem "jekyll-feed", "~> 0.12"
           gem "jekyll-sitemap"
           gem "jekyll-seo-tag"
-          gem "webrick", "~> 1.7"
+          gem "webrick", "~> 1.8"
+          gem "csv"
+          gem "base64"
           EOF
 
       - name: Install dependencies
         run: |
           cd docs
-          bundle install
+          bundle config set --local path 'vendor/bundle'
+          bundle install --retry 3 --jobs 4
 
       - name: Build with Jekyll
         run: |
