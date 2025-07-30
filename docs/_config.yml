@@ -2,7 +2,7 @@
 title: "Mattermost PDF Dekont Parser Plugin"
 description: "A Mattermost plugin that automatically parses PDF bank receipts and extracts transaction details"
 author: "SkyLostTR"
-email: "contact@skylosttr.dev"
+email: "keeftraum@protonmail.com"
 baseurl: "/mattermost-dekont-plugin"
 url: "https://skylosttr.github.io"
 

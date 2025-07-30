@@ -599,4 +599,4 @@ For API-related questions:
 - 📖 [Development Guide](development.html)
 - 🐛 [Report API Issues](https://github.com/SkyLostTR/mattermost-dekont-plugin/issues)
 - 💬 [API Discussions](https://github.com/SkyLostTR/mattermost-dekont-plugin/discussions)
-- 📧 [Contact Developer](mailto:contact@skylosttr.dev)
+- 📧 [Contact Developer](mailto:keeftraum@protonmail.com)

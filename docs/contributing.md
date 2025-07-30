@@ -597,7 +597,7 @@ Contributors are recognized in:
 ### Development Questions
 - 💬 [GitHub Discussions](https://github.com/SkyLostTR/mattermost-dekont-plugin/discussions)
 - 📖 [Development Guide](development.html)
-- 📧 [Email the maintainer](mailto:contact@skylosttr.dev)
+- 📧 [Email the maintainer](mailto:keeftraum@protonmail.com)
 
 ### Issue Templates
 - 🐛 [Bug Report](https://github.com/SkyLostTR/mattermost-dekont-plugin/issues/new?template=bug_report.md)

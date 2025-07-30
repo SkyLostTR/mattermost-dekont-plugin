@@ -108,7 +108,7 @@ We regularly monitor our dependencies for security vulnerabilities:
 ## Security Contact
 
 For security-related inquiries, please contact:
-- **Email**: [security@example.com]
+- **Email**: [keeftraum@protonmail.com]
 - **PGP Key**: [Key ID if available]
 
 ## Acknowledgments

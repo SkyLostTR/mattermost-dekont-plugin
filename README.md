@@ -323,7 +323,7 @@ Enable debug logging in `config.json`:
 1. 📖 Check our [Documentation](https://github.com/SkyLostTR/mattermost-dekont-plugin/wiki)
 2. 🐛 [Report Issues](https://github.com/SkyLostTR/mattermost-dekont-plugin/issues)
 3. 💬 [Discussions](https://github.com/SkyLostTR/mattermost-dekont-plugin/discussions)
-4. 📧 Contact: [support@example.com]
+4. 📧 Contact: [keeftraum@protonmail.com]
 
 ## 🤝 Contributing
 
