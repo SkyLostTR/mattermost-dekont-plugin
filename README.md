@@ -12,8 +12,10 @@
 - [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
 - [Security](#security)
-- [Credits & Acknowledgments](#credits--acknowledgments)
-- [License](#license)enter">
+- [Credits & Acknowledgments](#-credits--acknowledgments)
+- [License](#license)
+
+<p align="center">
   <img src="assets/icon.svg" alt="PDF Dekont Parser Plugin Icon" width="128" height="128"/>
 </p>
 
@@ -37,7 +39,7 @@
      <img alt="License" src="https://img.shields.io/github/license/SkyLostTR/mattermost-dekont-plugin?color=blue" style="max-width: 100%;">
    </a>
   <a href="https://golang.org/">
-    <img alt="Go Version" src="https://img.shields.io/badge/go-1.19%2B-blue.svg" style="max-width: 100%;">
+    <img alt="Go Version" src="https://img.shields.io/badge/go-1.21%2B-blue.svg" style="max-width: 100%;">
   </a>
   <a href="https://mattermost.com/">
     <img alt="Mattermost Version" src="https://img.shields.io/badge/mattermost-v6%2B-green.svg" style="max-width: 100%;">
@@ -67,7 +69,6 @@
       <img alt="Repo Size" src="https://img.shields.io/github/repo-size/SkyLostTR/mattermost-dekont-plugin" style="max-width: 100%;">
     </a>
 </p>
-  </p>
 
 <!-- Support Buttons -->
 <p align="center">
@@ -82,7 +83,7 @@
 
 A Mattermost plugin that automatically parses PDF bank receipts (dekont) and extracts transaction details to display them in a structured format.
 
-## � Documentation
+## 📚 Documentation
 
 📚 **[Complete Documentation Website](https://skylosttr.github.io/mattermost-dekont-plugin)** - Comprehensive guides, API reference, and examples
 
@@ -91,19 +92,6 @@ Quick Links:
 - 📘 [Usage Guide](https://skylosttr.github.io/mattermost-dekont-plugin/usage.html)
 - 🏦 [Supported Banks](https://skylosttr.github.io/mattermost-dekont-plugin/banks.html)
 - 💻 [Development Guide](https://skylosttr.github.io/mattermost-dekont-plugin/development.html)
-
-## �📋 Table of Contents
-
-- [Features](#features)
-- [Supported Banks](#supported-banks)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Development](#development)
-- [Configuration](#configuration)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
-- [Security](#security)
-- [License](#license)
 
 ## ✨ Features
 
@@ -426,9 +414,9 @@ Security is a top priority. Please review our [Security Policy](SECURITY.md) for
 
 🚨 **Do not report security vulnerabilities through public issues**
 
-Instead, email us at: [security@example.com]
+Instead, email us at: [keeftraum@protonmail.com](mailto:keeftraum@protonmail.com)
 
-## � Credits & Acknowledgments
+## 🎉 Credits & Acknowledgments
 
 ### 👨‍💻 Development Team
 
@@ -477,7 +465,7 @@ For enterprise implementations, custom bank format support, or professional serv
 
 *"Built with ❤️ for the Mattermost community by SkyLostTR (@Keeftraum)"*
 
-## �📄 License
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
