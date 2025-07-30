@@ -1,8 +1,8 @@
+// Package main implements a Mattermost plugin for parsing PDF bank receipts.
 package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"regexp"
 	"strings"
@@ -12,71 +12,91 @@ import (
 	"github.com/mattermost/mattermost-server/v6/plugin"
 )
 
+// Plugin represents the main plugin instance.
 type Plugin struct {
 	plugin.MattermostPlugin
 }
 
+// OnActivate is called when the plugin is activated.
 func (p *Plugin) OnActivate() error {
 	p.API.LogInfo("PDF Parser Plugin activated")
 	return nil
 }
 
-func (p *Plugin) MessageHasBeenPosted(c *plugin.Context, post *model.Post) {
+// MessageHasBeenPosted processes newly posted messages to extract PDF content.
+func (p *Plugin) MessageHasBeenPosted(_ *plugin.Context, post *model.Post) {
 	if post.Type != "" || post.FileIds == nil || len(post.FileIds) == 0 {
 		return
 	}
 
 	for _, fileID := range post.FileIds {
-		fileInfo, err := p.API.GetFileInfo(fileID)
-		if err != nil || !strings.HasSuffix(fileInfo.Name, ".pdf") {
-			continue
-		}
-
-		data, appErr := p.API.GetFile(fileID)
-		if appErr != nil {
-			p.API.LogError("Failed to get file", "error", appErr.Error())
-			continue
-		}
-
-		tempFile, fileErr := ioutil.TempFile("", "*.pdf")
-		if fileErr != nil {
-			p.API.LogError("Failed to create temp file", "error", fileErr.Error())
-			continue
-		}
-		defer os.Remove(tempFile.Name())
-
-		tempFile.Write(data)
-		tempFile.Close()
-
-		file, r, pdfErr := pdf.Open(tempFile.Name())
-		if pdfErr != nil {
-			p.API.LogError("Failed to open PDF", "error", pdfErr.Error())
-			continue
-		}
-		defer file.Close()
-
-		var extractedText string
-		if r.NumPage() > 0 {
-			page := r.Page(1)
-			if page.V.IsNull() {
-				continue
-			}
-			extractedText, pdfErr = page.GetPlainText(nil)
-			if pdfErr != nil {
-				p.API.LogError("Failed to extract text from PDF", "error", pdfErr.Error())
-				continue
-			}
-		}
-
-		description := extractFields(extractedText)
-		if description != "" {
-			post.Message = description
-			_, appErr = p.API.UpdatePost(post)
-			if appErr != nil {
-				p.API.LogError("Failed to update post", "error", appErr.Error())
-			}
+		if err := p.processFileUpload(fileID, post); err != nil {
+			p.API.LogError("Failed to process file upload", "fileID", fileID, "error", err.Error())
 		}
 	}
+}
+
+func (p *Plugin) processFileUpload(fileID string, post *model.Post) error {
+	fileInfo, err := p.API.GetFileInfo(fileID)
+	if err != nil || !strings.HasSuffix(fileInfo.Name, ".pdf") {
+		return nil // Not a PDF file, skip silently
+	}
+
+	data, appErr := p.API.GetFile(fileID)
+	if appErr != nil {
+		return appErr
+	}
+
+	tempFile, fileErr := os.CreateTemp("", "*.pdf")
+	if fileErr != nil {
+		return fileErr
+	}
+	defer func() {
+		if err := tempFile.Close(); err != nil {
+			p.API.LogError("Failed to close temp file", "error", err.Error())
+		}
+		if err := os.Remove(tempFile.Name()); err != nil {
+			p.API.LogError("Failed to remove temp file", "error", err.Error())
+		}
+	}()
+
+	if _, writeErr := tempFile.Write(data); writeErr != nil {
+		return writeErr
+	}
+
+	if closeErr := tempFile.Close(); closeErr != nil {
+		return closeErr
+	}
+
+	file, r, pdfErr := pdf.Open(tempFile.Name())
+	if pdfErr != nil {
+		return pdfErr
+	}
+	defer file.Close()
+
+	var extractedText string
+	if r.NumPage() > 0 {
+		page := r.Page(1)
+		if page.V.IsNull() {
+			return nil
+		}
+		var textErr error
+		extractedText, textErr = page.GetPlainText(nil)
+		if textErr != nil {
+			return textErr
+		}
+	}
+
+	description := extractFields(extractedText)
+	if description != "" {
+		post.Message = description
+		_, appErr = p.API.UpdatePost(post)
+		if appErr != nil {
+			return appErr
+		}
+	}
+
+	return nil
 }
 
 func extractFields(text string) string {
