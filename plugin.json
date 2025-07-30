@@ -1,9 +1,14 @@
 {
     "id": "mattermost-dekont-plugin",
     "name": "PDF Dekont Parser",
-    "description": "Automatically parses PDF bank receipts and extracts transaction details",
+    "description": "🏦 Automatically parses PDF bank receipts and extracts transaction details for Turkish banks. Developed by EC KOLLEKTIF with support for 8+ major Turkish banks including İş Bankası, Garanti BBVA, Akbank, and more.",
     "version": "1.0.0",
     "min_server_version": "6.0.0",
+    "author": "SkyLostTR (@Keeftraum)",
+    "homepage_url": "https://github.com/SkyLostTR/mattermost-dekont-plugin",
+    "support_url": "https://github.com/SkyLostTR/mattermost-dekont-plugin/issues",
+    "release_notes_url": "https://github.com/SkyLostTR/mattermost-dekont-plugin/releases",
+    "icon_path": "assets/icon.svg",
     "server": {
         "executables": {
             "linux-amd64": "server/plugin-linux-amd64",
@@ -13,8 +18,84 @@
         "executable": ""
     },
     "settings_schema": {
-        "header": "",
-        "footer": "",
-        "settings": []
+        "header": "Configure the PDF Dekont Parser plugin settings below. This plugin automatically extracts transaction details from PDF bank receipts.\n\n**Developed by SkyLostTR (@Keeftraum)** - For support and feature requests, visit our GitHub repository.",
+        "footer": "**Credits:** Developed with ❤️ by SkyLostTR (@Keeftraum)\n\n**Supported Banks:** Türkiye İş Bankası, Garanti BBVA, Akbank, Yapı Kredi, Ziraat Bankası, VakıfBank, Kuveyt Türk, HalkBank\n\nFor technical support or to request new bank format support, please visit: https://github.com/SkyLostTR/mattermost-dekont-plugin",
+        "settings": [
+            {
+                "key": "EnablePlugin",
+                "display_name": "Enable PDF Dekont Parser",
+                "type": "bool",
+                "help_text": "Enable or disable the PDF dekont parsing functionality. When enabled, the plugin will automatically parse PDF bank receipts posted in channels.",
+                "default": true
+            },
+            {
+                "key": "ProcessOnlyInChannels",
+                "display_name": "Process Only in Specific Channels",
+                "type": "bool",
+                "help_text": "If enabled, the plugin will only process PDFs in channels specified in the 'Allowed Channels' setting below.",
+                "default": false
+            },
+            {
+                "key": "AllowedChannels",
+                "display_name": "Allowed Channels",
+                "type": "text",
+                "help_text": "Comma-separated list of channel names where PDF parsing should be enabled (e.g., 'finance,accounting,payments'). Only used when 'Process Only in Specific Channels' is enabled.",
+                "placeholder": "finance,accounting,payments",
+                "default": ""
+            },
+            {
+                "key": "MaxFileSizeMB",
+                "display_name": "Maximum File Size (MB)",
+                "type": "number",
+                "help_text": "Maximum size of PDF files to process in megabytes. Files larger than this will be ignored.",
+                "default": 10,
+                "placeholder": "10"
+            },
+            {
+                "key": "CustomMessagePrefix",
+                "display_name": "Custom Message Prefix",
+                "type": "text",
+                "help_text": "Custom text to add before the extracted transaction details. Leave empty for no prefix.",
+                "placeholder": "📄 Bank Receipt Details:",
+                "default": "📄 **Dekont Bilgileri:**"
+            },
+            {
+                "key": "IncludeTimestamp",
+                "display_name": "Include Processing Timestamp",
+                "type": "bool",
+                "help_text": "Add a timestamp showing when the PDF was processed by the plugin.",
+                "default": false
+            },
+            {
+                "key": "NotifyOnProcessingError",
+                "display_name": "Notify on Processing Errors",
+                "type": "bool",
+                "help_text": "Send a message in the channel when PDF processing fails or encounters errors.",
+                "default": false
+            },
+            {
+                "key": "ErrorNotificationMessage",
+                "display_name": "Error Notification Message",
+                "type": "text",
+                "help_text": "Custom message to display when PDF processing fails. Only used when 'Notify on Processing Errors' is enabled.",
+                "placeholder": "⚠️ Could not parse PDF bank receipt",
+                "default": "⚠️ PDF dekont işlenirken hata oluştu. Lütfen dosyanın geçerli bir banka dekontu olduğundan emin olun."
+            },
+            {
+                "key": "EnableDebugLogging",
+                "display_name": "Enable Debug Logging",
+                "type": "bool",
+                "help_text": "Enable detailed debug logging for troubleshooting. Only enable this for debugging purposes as it may impact performance.",
+                "default": false
+            },
+            {
+                "key": "SupportedBanks",
+                "display_name": "Supported Bank Formats",
+                "type": "text",
+                "help_text": "This is a read-only list of currently supported banks. To request support for additional banks, please create an issue on our GitHub repository.",
+                "default": "Türkiye İş Bankası, Garanti BBVA, Akbank, Yapı Kredi, Ziraat Bankası, VakıfBank, Kuveyt Türk, HalkBank",
+                "placeholder": "Türkiye İş Bankası, Garanti BBVA, Akbank, Yapı Kredi, Ziraat Bankası, VakıfBank, Kuveyt Türk, HalkBank"
+            }
+        ]
     }
 }

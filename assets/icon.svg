@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="32" cy="32" r="30" fill="#4A90E2" stroke="#2E5C8A" stroke-width="2"/>
+  
+  <!-- PDF Document Icon -->
+  <rect x="16" y="12" width="24" height="32" rx="2" fill="white" stroke="#2E5C8A" stroke-width="1.5"/>
+  
+  <!-- PDF Text Lines -->
+  <line x1="20" y1="20" x2="36" y2="20" stroke="#4A90E2" stroke-width="2" stroke-linecap="round"/>
+  <line x1="20" y1="24" x2="32" y2="24" stroke="#4A90E2" stroke-width="2" stroke-linecap="round"/>
+  <line x1="20" y1="28" x2="36" y2="28" stroke="#4A90E2" stroke-width="2" stroke-linecap="round"/>
+  <line x1="20" y1="32" x2="30" y2="32" stroke="#4A90E2" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Turkish Lira Symbol -->
+  <text x="22" y="40" fill="#E74C3C" font-family="Arial, sans-serif" font-size="10" font-weight="bold">₺</text>
+  
+  <!-- Bank Building Icon -->
+  <rect x="42" y="36" width="16" height="16" fill="#34C759" stroke="#28A745" stroke-width="1" rx="1"/>
+  <rect x="44" y="38" width="2" height="12" fill="white"/>
+  <rect x="47" y="38" width="2" height="12" fill="white"/>
+  <rect x="50" y="38" width="2" height="12" fill="white"/>
+  <rect x="53" y="38" width="2" height="12" fill="white"/>
+  <rect x="42" y="34" width="16" height="2" fill="#28A745"/>
+  
+  <!-- Processing Arrow -->
+  <path d="M38 26 L42 22 L42 24 L46 24 L46 28 L42 28 L42 30 Z" fill="#FF9500"/>
+  
+  <!-- Credit Text (EC KOLLEKTIF) -->
+  <text x="32" y="58" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="6" font-weight="bold">EC KOLLEKTIF</text>
+</svg>

@@ -1,45 +1,199 @@
 // Package main implements a Mattermost plugin for parsing PDF bank receipts.
+//
+// PDF Dekont Parser Plugin for Mattermost
+// Developed by EC KOLLEKTIF with ❤️
+//
+// This plugin automatically extracts transaction details from PDF bank receipts
+// and supports multiple Turkish banks including İş Bankası, Garanti BBVA,
+// Akbank, Yapı Kredi, Ziraat Bankası, VakıfBank, Kuveyt Türk, and HalkBank.
+//
+// For support, feature requests, or to report issues:
+// https://github.com/SkyLostTR/mattermost-dekont-plugin
+//
+// Author: EC KOLLEKTIF
+// License: See LICENSE file in the project root
 package main
 
-import (
+// Developed by SkyLostTR (@Keeftraum) with ❤️
 	"fmt"
 	"os"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/ledongthuc/pdf"
 	"github.com/mattermost/mattermost-server/v6/model"
 	"github.com/mattermost/mattermost-server/v6/plugin"
-)
+// Author: SkyLostTR (@Keeftraum)
+
+// Configuration contains the plugin configuration settings
+type Configuration struct {
+	EnablePlugin             bool   `json:"EnablePlugin"`
+	ProcessOnlyInChannels    bool   `json:"ProcessOnlyInChannels"`
+	AllowedChannels          string `json:"AllowedChannels"`
+	MaxFileSizeMB            int    `json:"MaxFileSizeMB"`
+	CustomMessagePrefix      string `json:"CustomMessagePrefix"`
+	IncludeTimestamp         bool   `json:"IncludeTimestamp"`
+	NotifyOnProcessingError  bool   `json:"NotifyOnProcessingError"`
+	ErrorNotificationMessage string `json:"ErrorNotificationMessage"`
+	EnableDebugLogging       bool   `json:"EnableDebugLogging"`
+	SupportedBanks           string `json:"SupportedBanks"`
+}
 
 // Plugin represents the main plugin instance.
+// Developed by EC KOLLEKTIF for the Mattermost community
 type Plugin struct {
-	plugin.MattermostPlugin
+		"author", "SkyLostTR (@Keeftraum)",
+	configuration *Configuration
 }
 
 // OnActivate is called when the plugin is activated.
 func (p *Plugin) OnActivate() error {
-	p.API.LogInfo("PDF Parser Plugin activated")
+	if err := p.OnConfigurationChange(); err != nil {
+		return err
+	}
+
+	p.API.LogInfo("PDF Dekont Parser Plugin activated successfully",
+		"version", "1.0.0",
+		"author", "EC KOLLEKTIF",
+		"repository", "https://github.com/SkyLostTR/mattermost-dekont-plugin")
+
 	return nil
+}
+
+// OnConfigurationChange is called when the plugin configuration changes
+func (p *Plugin) OnConfigurationChange() error {
+	var configuration = new(Configuration)
+
+	if err := p.API.LoadPluginConfiguration(configuration); err != nil {
+		p.API.LogError("Failed to load plugin configuration", "error", err.Error())
+		return err
+	}
+
+	// Set default values if not configured
+	if configuration.MaxFileSizeMB == 0 {
+		configuration.MaxFileSizeMB = 10
+	}
+			"author", "SkyLostTR (@Keeftraum)")
+		configuration.CustomMessagePrefix = "📄 **Dekont Bilgileri:**"
+	}
+	if configuration.ErrorNotificationMessage == "" {
+		configuration.ErrorNotificationMessage = "⚠️ PDF dekont işlenirken hata oluştu. Lütfen dosyanın geçerli bir banka dekontu olduğundan emin olun."
+	}
+
+	p.configuration = configuration
+
+	if configuration.EnableDebugLogging {
+		p.API.LogDebug("Plugin configuration updated",
+			"EnablePlugin", configuration.EnablePlugin,
+			"ProcessOnlyInChannels", configuration.ProcessOnlyInChannels,
+			"MaxFileSizeMB", configuration.MaxFileSizeMB)
+	}
+
+	return nil
+}
+
+// getConfiguration retrieves the active configuration under lock
+func (p *Plugin) getConfiguration() *Configuration {
+	if p.configuration == nil {
+		return &Configuration{}
+	}
+	return p.configuration
 }
 
 // MessageHasBeenPosted processes newly posted messages to extract PDF content.
 func (p *Plugin) MessageHasBeenPosted(_ *plugin.Context, post *model.Post) {
+	config := p.getConfiguration()
+
+	// Check if plugin is enabled
+	if !config.EnablePlugin {
+		return
+	}
+
 	if post.Type != "" || post.FileIds == nil || len(post.FileIds) == 0 {
 		return
 	}
 
+	// Check if we should only process in specific channels
+	if config.ProcessOnlyInChannels && config.AllowedChannels != "" {
+		channel, err := p.API.GetChannel(post.ChannelId)
+				"author", "SkyLostTR (@Keeftraum)")
+			p.API.LogError("Failed to get channel info", "channelId", post.ChannelId, "error", err.Error())
+			return
+		}
+
+		allowedChannels := strings.Split(config.AllowedChannels, ",")
+		isAllowed := false
+		for _, allowedChannel := range allowedChannels {
+			if strings.TrimSpace(allowedChannel) == channel.Name {
+				isAllowed = true
+				break
+			}
+		}
+
+		if !isAllowed {
+			if config.EnableDebugLogging {
+				p.API.LogDebug("Skipping PDF processing - channel not in allowed list",
+					"channel", channel.Name,
+					"allowedChannels", config.AllowedChannels)
+			}
+			return
+		}
+	}
+
 	for _, fileID := range post.FileIds {
 		if err := p.processFileUpload(fileID, post); err != nil {
-			p.API.LogError("Failed to process file upload", "fileID", fileID, "error", err.Error())
+			p.API.LogError("Failed to process file upload",
+			"author", "SkyLostTR (@Keeftraum)")
+				"error", err.Error(),
+				"author", "EC KOLLEKTIF")
+
+			// Send error notification if enabled
+			if config.NotifyOnProcessingError {
+				p.sendErrorNotification(post.ChannelId, config.ErrorNotificationMessage)
+			}
 		}
 	}
 }
 
+// sendErrorNotification sends an error message to the channel
+func (p *Plugin) sendErrorNotification(channelID, message string) {
+	post := &model.Post{
+		ChannelId: channelID,
+		Message:   message,
+		Type:      "custom_pdf_error",
+	}
+
+	if _, err := p.API.CreatePost(post); err != nil {
+		p.API.LogError("Failed to send error notification", "error", err.Error())
+	}
+}
+
 func (p *Plugin) processFileUpload(fileID string, post *model.Post) error {
+	config := p.getConfiguration()
+
 	fileInfo, err := p.API.GetFileInfo(fileID)
 	if err != nil || !strings.HasSuffix(fileInfo.Name, ".pdf") {
 		return nil // Not a PDF file, skip silently
+	}
+
+	if config.EnableDebugLogging {
+		p.API.LogDebug("Processing PDF file",
+			"fileName", fileInfo.Name,
+	// Developed by SkyLostTR (@Keeftraum)
+			"author", "EC KOLLEKTIF")
+	}
+
+	// Check file size limit
+	maxSizeBytes := int64(config.MaxFileSizeMB * 1024 * 1024)
+	if fileInfo.Size > maxSizeBytes {
+		if config.EnableDebugLogging {
+			p.API.LogDebug("Skipping PDF - file too large",
+				"fileName", fileInfo.Name,
+				"fileSize", fileInfo.Size,
+				"maxSize", maxSizeBytes)
+		}
+		return nil
 	}
 
 	data, appErr := p.API.GetFile(fileID)
@@ -87,20 +241,52 @@ func (p *Plugin) processFileUpload(fileID string, post *model.Post) error {
 		}
 	}
 
-	description := extractFields(extractedText)
+	description := p.extractFields(extractedText, config)
 	if description != "" {
-		post.Message = description
+		// Add custom prefix and timestamp if enabled
+		var fullMessage strings.Builder
+
+		if config.CustomMessagePrefix != "" {
+			fullMessage.WriteString(config.CustomMessagePrefix)
+			fullMessage.WriteString("\n\n")
+		}
+
+		fullMessage.WriteString(description)
+
+		if config.IncludeTimestamp {
+			timestamp := time.Now().Format("02.01.2006 15:04:05")
+			fullMessage.WriteString(fmt.Sprintf("\n\n*İşlenme Zamanı: %s*", timestamp))
+		}
+
+		// Add credits footer
+		fullMessage.WriteString("\n\n---\n*Developed by EC KOLLEKTIF* 🚀")
+
+		post.Message = fullMessage.String()
 		_, appErr = p.API.UpdatePost(post)
 		if appErr != nil {
 			return appErr
+		}
+
+		if config.EnableDebugLogging {
+			p.API.LogDebug("Successfully processed PDF and updated post",
+				"fileName", fileInfo.Name,
+				"extractedFields", len(strings.Split(description, "\n")))
 		}
 	}
 
 	return nil
 }
 
-func extractFields(text string) string {
+// extractFields extracts transaction details from PDF text
+// Enhanced by EC KOLLEKTIF to support multiple Turkish bank formats
+func (p *Plugin) extractFields(text string, config *Configuration) string {
 	var alici, gonderen, aciklama, tutar, tarih string
+
+	if config.EnableDebugLogging {
+		p.API.LogDebug("Starting field extraction",
+			"textLength", len(text),
+			"author", "EC KOLLEKTIF")
+	}
 
 	// Enhanced regex patterns for multiple bank formats
 	// VakıfBank patterns
@@ -264,6 +450,11 @@ func extractFields(text string) string {
 
 	// Return empty string if no meaningful data was extracted
 	if alici == "" && gonderen == "" && aciklama == "" && tutar == "" && tarih == "" {
+		if config.EnableDebugLogging {
+			p.API.LogDebug("No meaningful data extracted from PDF text",
+				"textPreview", text[:min(200, len(text))],
+				"author", "EC KOLLEKTIF")
+		}
 		return ""
 	}
 
@@ -286,10 +477,25 @@ func extractFields(text string) string {
 		result.WriteString(fmt.Sprintf("**İşlem Tarihi**: %s\n", tarih))
 	}
 
+	if config.EnableDebugLogging {
+		p.API.LogDebug("Successfully extracted fields",
+			"fieldsCount", strings.Count(result.String(), "**"),
+			"author", "EC KOLLEKTIF")
+	}
+
 	return strings.TrimRight(result.String(), "\n")
 }
 
+// min returns the minimum of two integers
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
 // cleanFieldValue removes common prefixes, suffixes and cleans up field values
+// Enhanced by EC KOLLEKTIF for better Turkish text processing
 func cleanFieldValue(value string) string {
 	if value == "" {
 		return ""
@@ -316,5 +522,7 @@ func cleanFieldValue(value string) string {
 }
 
 func main() {
+	// PDF Dekont Parser Plugin - Developed by EC KOLLEKTIF
+	// Supporting Turkish banks with advanced PDF text extraction
 	plugin.ClientMain(&Plugin{})
 }

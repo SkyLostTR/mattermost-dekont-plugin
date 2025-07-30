@@ -1,5 +1,22 @@
 # Mattermost PDF Dekont Parser Plugin
 
+> **Developed with ❤️ by SkyLostTR (@Keeftraum)**
+## 📋 Table of Contents
+
+- [Features](#features)
+- [Supported Banks](#supported-banks)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Development](#development)
+- [Configuration](#configuration)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [Security](#security)
+- [Credits & Acknowledgments](#credits--acknowledgments)
+- [License](#license)enter">
+  <img src="assets/icon.svg" alt="PDF Dekont Parser Plugin Icon" width="128" height="128"/>
+</p>
+
 <p align="center" dir="auto">
    <a href="https://github.com/SkyLostTR/mattermost-dekont-plugin/graphs/contributors">
      <img alt="GitHub Contributors" src="https://img.shields.io/github/contributors/SkyLostTR/mattermost-dekont-plugin" style="max-width: 100%;">
@@ -49,6 +66,7 @@
     <a href="https://github.com/SkyLostTR/mattermost-dekont-plugin">
       <img alt="Repo Size" src="https://img.shields.io/github/repo-size/SkyLostTR/mattermost-dekont-plugin" style="max-width: 100%;">
     </a>
+</p>
   </p>
 
 <!-- Support Buttons -->
@@ -269,7 +287,52 @@ mattermost-dekont-plugin/
 
 ### Plugin Settings
 
-The plugin works out-of-the-box with no additional configuration required. Advanced settings may be added in future versions.
+The plugin offers comprehensive customization options accessible through **System Console** > **Plugins** > **PDF Dekont Parser**.
+
+#### 🔧 Core Settings
+
+| Setting | Description | Default | Type |
+|---------|-------------|---------|------|
+| **Enable PDF Dekont Parser** | Master switch to enable/disable the plugin | `true` | Boolean |
+| **Process Only in Specific Channels** | Restrict processing to specified channels | `false` | Boolean |
+| **Allowed Channels** | Comma-separated list of channel names | `""` | Text |
+| **Maximum File Size (MB)** | PDF size limit for processing | `10` | Number |
+
+#### 🎨 Customization Settings
+
+| Setting | Description | Default | Type |
+|---------|-------------|---------|------|
+| **Custom Message Prefix** | Text added before extracted data | `📄 **Dekont Bilgileri:**` | Text |
+| **Include Processing Timestamp** | Add timestamp to processed messages | `false` | Boolean |
+| **Notify on Processing Errors** | Send error messages to channels | `false` | Boolean |
+| **Error Notification Message** | Custom error message text | Turkish error message | Text |
+
+#### 🛠️ Advanced Settings
+
+| Setting | Description | Default | Type |
+|---------|-------------|---------|------|
+| **Enable Debug Logging** | Detailed logging for troubleshooting | `false` | Boolean |
+| **Supported Bank Formats** | Read-only list of supported banks | All supported banks | Text |
+
+#### Configuration Examples
+
+**Channel Restriction Example:**
+```
+Process Only in Specific Channels: ✓ Enabled
+Allowed Channels: finance,accounting,treasury,payments
+```
+
+**Custom Message Example:**
+```
+Custom Message Prefix: 💰 Bank Transaction Details:
+Include Processing Timestamp: ✓ Enabled
+```
+
+**Error Handling Example:**
+```
+Notify on Processing Errors: ✓ Enabled
+Error Notification Message: ⚠️ Unable to process PDF receipt. Please verify it's a valid bank receipt.
+```
 
 ### Mattermost Requirements
 
@@ -365,9 +428,69 @@ Security is a top priority. Please review our [Security Policy](SECURITY.md) for
 
 Instead, email us at: [security@example.com]
 
-## 📄 License
+## � Credits & Acknowledgments
+
+### 👨‍💻 Development Team
+
+**Primary Developer**: **EC KOLLEKTIF** 🚀
+- Lead developer and maintainer
+- Architecture design and implementation
+- Turkish banking integration specialist
+- PDF processing optimization
+
+### 🏛️ Banking Partners
+
+We acknowledge the Turkish banking institutions whose receipt formats are supported:
+- **Türkiye İş Bankası** - Turkey's leading private bank
+- **Garanti BBVA** - Digital banking pioneer
+- **Akbank** - Innovation in financial services
+- **Yapı Kredi** - Comprehensive banking solutions
+- **Ziraat Bankası** - Turkey's largest state bank
+- **VakıfBank** - Traditional banking excellence
+- **Kuveyt Türk** - Islamic banking leader
+- **HalkBank** - People's bank
+
+### 🛠️ Technology Stack
+
+- **[Go](https://golang.org/)** - High-performance backend language
+- **[Mattermost Plugin Framework](https://developers.mattermost.com/extend/plugins/)** - Robust plugin architecture
+- **[ledongthuc/pdf](https://github.com/ledongthuc/pdf)** - PDF text extraction library
+- **[GitHub Actions](https://github.com/features/actions)** - CI/CD pipeline
+- **[SonarCloud](https://sonarcloud.io/)** - Code quality analysis
+
+### 🌟 Special Thanks
+
+- **Mattermost Community** for the excellent plugin framework
+- **Turkish Banking Association** for standardized receipt formats
+- **Open Source Contributors** who make projects like this possible
+- **Beta Testers** who helped refine the bank format recognition
+
+### 💼 Professional Support
+
+For enterprise implementations, custom bank format support, or professional services:
+
+**Contact EC KOLLEKTIF** 📧
+- Email: [keeftraum@protonmail.com](mailto:keeftraum@protonmail.com)
+- GitHub: [@SkyLostTR](https://github.com/SkyLostTR)
+
+---
+
+*"Built with ❤️ for the Mattermost community by EC KOLLEKTIF"*
+
+## �📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+### License Summary
+
+- ✅ **Commercial Use** - Use in commercial projects
+- ✅ **Modification** - Modify and adapt the code
+- ✅ **Distribution** - Distribute original or modified versions
+- ✅ **Private Use** - Use privately in your organization
+- ❗ **Include License** - Include the original license in distributions
+- ❗ **Include Copyright** - Include original copyright notice
+
+**Developed by EC KOLLEKTIF** - Contributing to the open source community
 
 ## 📞 Contact
 
@@ -375,6 +498,14 @@ For questions, support, or collaboration:
 - **Email**: [keeftraum@protonmail.com](mailto:keeftraum@protonmail.com)
 - **GitHub**: [@SkyLostTR](https://github.com/SkyLostTR)
 - **Issues**: [Project Issues](https://github.com/SkyLostTR/mattermost-dekont-plugin/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/SkyLostTR/mattermost-dekont-plugin/discussions)
+
+---
+
+<p align="center">
+  <strong>⭐ If this project helped you, please give it a star! ⭐</strong><br>
+  <em>Developed with passion by EC KOLLEKTIF for the global Mattermost community</em>
+</p>
 
 ## 🏆 Acknowledgments
 
