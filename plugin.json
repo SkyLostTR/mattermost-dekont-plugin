@@ -1,7 +1,7 @@
 {
     "id": "mattermost-dekont-plugin",
     "name": "PDF Dekont Parser",
-    "description": "🏦 Automatically parses PDF bank receipts and extracts transaction details for Turkish banks. Developed by EC KOLLEKTIF with support for 8+ major Turkish banks including İş Bankası, Garanti BBVA, Akbank, and more.",
+    "description": "🏦 Automatically parses PDF bank receipts and extracts transaction details for Turkish banks. Developed by SkyLostTR (@Keeftraum) with support for 8+ major Turkish banks including İş Bankası, Garanti BBVA, Akbank, and more.",
     "version": "1.0.0",
     "min_server_version": "6.0.0",
     "author": "SkyLostTR (@Keeftraum)",

@@ -432,7 +432,7 @@ Instead, email us at: [security@example.com]
 
 ### 👨‍💻 Development Team
 
-**Primary Developer**: **EC KOLLEKTIF** 🚀
+**Primary Developer**: **SkyLostTR (@Keeftraum)** 🚀
 - Lead developer and maintainer
 - Architecture design and implementation
 - Turkish banking integration specialist
@@ -469,13 +469,13 @@ We acknowledge the Turkish banking institutions whose receipt formats are suppor
 
 For enterprise implementations, custom bank format support, or professional services:
 
-**Contact EC KOLLEKTIF** 📧
+**Contact SkyLostTR (@Keeftraum)** 📧
 - Email: [keeftraum@protonmail.com](mailto:keeftraum@protonmail.com)
 - GitHub: [@SkyLostTR](https://github.com/SkyLostTR)
 
 ---
 
-*"Built with ❤️ for the Mattermost community by EC KOLLEKTIF"*
+*"Built with ❤️ for the Mattermost community by SkyLostTR (@Keeftraum)"*
 
 ## �📄 License
 
@@ -490,7 +490,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - ❗ **Include License** - Include the original license in distributions
 - ❗ **Include Copyright** - Include original copyright notice
 
-**Developed by EC KOLLEKTIF** - Contributing to the open source community
+**Developed by SkyLostTR (@Keeftraum)** - Contributing to the open source community
 
 ## 📞 Contact
 
@@ -504,7 +504,7 @@ For questions, support, or collaboration:
 
 <p align="center">
   <strong>⭐ If this project helped you, please give it a star! ⭐</strong><br>
-  <em>Developed with passion by EC KOLLEKTIF for the global Mattermost community</em>
+  <em>Developed with passion by SkyLostTR (@Keeftraum) for the global Mattermost community</em>
 </p>
 
 ## 🏆 Acknowledgments

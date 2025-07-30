@@ -26,6 +26,6 @@
   <!-- Processing Arrow -->
   <path d="M38 26 L42 22 L42 24 L46 24 L46 28 L42 28 L42 30 Z" fill="#FF9500"/>
   
-  <!-- Credit Text (EC KOLLEKTIF) -->
-  <text x="32" y="58" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="6" font-weight="bold">EC KOLLEKTIF</text>
+  <!-- Credit Text (SkyLostTR) -->
+  <text x="32" y="58" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="6" font-weight="bold">SkyLostTR</text>
 </svg>
