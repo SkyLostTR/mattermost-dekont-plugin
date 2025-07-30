@@ -138,21 +138,26 @@ cd mattermost-dekont-plugin
 # Install dependencies
 go mod download
 
-# Build the plugin
-make build
-
-# Create plugin bundle
-make bundle
+# Build for Linux (recommended)
+$env:GOOS = "linux"; $env:GOARCH = "amd64"; go build -o dist/server/plugin-linux-amd64 .
+copy plugin.json dist/
+cd dist
+tar -czf ../mattermost-dekont-plugin-1.0.0-linux.tar.gz server/plugin-linux-amd64 plugin.json
 ```
 
 ### Installation Steps
 
 1. **Upload Plugin**:
    - Go to **System Console** > **Plugins** > **Management**
-   - Click **Choose File** and select the `.tar.gz` file
+   - Click **Choose File** and select `mattermost-dekont-plugin-1.0.0-linux.tar.gz`
    - Click **Upload**
 
-2. **Enable Plugin**:
+2. **Fix Permissions** (Linux servers only):
+   ```bash
+   chmod +x plugins/mattermost-dekont-plugin/server/plugin-linux-amd64
+   ```
+
+3. **Enable Plugin**:
    - Find "PDF Dekont Parser" in the plugin list
    - Click **Enable**
    - Verify activation in server logs

@@ -8,29 +8,38 @@
 
 1. **Build the Plugin** (if not already done):
    ```bash
-   go build -o plugin.exe
+   # For Linux deployment (recommended for Mattermost servers)
+   $env:GOOS = "linux"; $env:GOARCH = "amd64"; go build -o dist/server/plugin-linux-amd64 .
+   
+   # For Windows deployment
+   go build -o dist/server/plugin-windows-amd64.exe
    ```
 
 2. **Create Plugin Bundle** (if not already done):
    ```bash
    # Create distribution structure
    mkdir -Force dist/server
-   copy plugin.exe dist/server/plugin-windows-amd64.exe
    copy plugin.json dist/
    
-   # Create bundle
+   # Create Linux bundle (recommended)
    cd dist
-   tar -czf ../mattermost-dekont-plugin-1.0.0.tar.gz *
+   tar -czf ../mattermost-dekont-plugin-1.0.0-linux.tar.gz server/plugin-linux-amd64 plugin.json
    cd ..
    ```
 
 3. **Upload to Mattermost**:
    - Go to **System Console** > **Plugins** > **Management**
-   - Click **Choose File** and select `mattermost-dekont-plugin-1.0.0.tar.gz`
+   - Click **Choose File** and select `mattermost-dekont-plugin-1.0.0-linux.tar.gz`
    - Click **Upload**
    - Wait for the upload to complete
 
-4. **Enable the Plugin**:
+4. **Fix Permissions** (Linux only):
+   If you get "permission denied" error, run this on your Mattermost server:
+   ```bash
+   chmod +x plugins/mattermost-dekont-plugin/server/plugin-linux-amd64
+   ```
+
+5. **Enable the Plugin**:
    - In the **System Console** > **Plugins** > **Management**
    - Find "PDF Dekont Parser" in the list
    - Click **Enable**
@@ -56,7 +65,10 @@
 - Verify the PDF follows Turkish bank receipt format
 - Check server logs for specific error messages
 
-### Permission Issues
+### Permission Issues (Linux)
+- **Error: "permission denied" when starting plugin**
+  - Solution: Run `chmod +x plugins/mattermost-dekont-plugin/server/plugin-linux-amd64` on your server
+  - Alternative: Use the included `fix-permissions.sh` script
 - Ensure the plugin has write access to temporary directories
 - Check that the Mattermost server process has appropriate file permissions
 
