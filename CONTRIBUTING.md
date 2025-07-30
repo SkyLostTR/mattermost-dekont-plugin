@@ -72,7 +72,7 @@ Examples:
 
 3. **Build and test**:
    ```bash
-   go build -o plugin.exe
+   GOOS=linux GOARCH=amd64 go build -o plugin
    go test ./...
    ```
 

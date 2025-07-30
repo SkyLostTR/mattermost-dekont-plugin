@@ -5,10 +5,16 @@
             "label": "Build Mattermost Plugin",
             "type": "shell",
             "command": "go",
-            "args": ["build", "-o", "plugin.exe"],
+            "args": ["build", "-o", "plugin"],
             "group": {
                 "kind": "build",
                 "isDefault": true
+            },
+            "options": {
+                "env": {
+                    "GOOS": "linux",
+                    "GOARCH": "amd64"
+                }
             },
             "presentation": {
                 "echo": true,
@@ -41,7 +47,7 @@
             "command": "powershell",
             "args": [
                 "-Command",
-                "mkdir -Force dist/server; cp plugin.exe dist/server/plugin-windows-amd64.exe; cp plugin.json dist/; cd dist; tar -czf ../mattermost-dekont-plugin-1.0.0.tar.gz *"
+                "New-Item -ItemType Directory -Force -Path 'dist\\server'; Copy-Item plugin dist\\server\\plugin-linux-amd64; Copy-Item plugin.json dist\\; Push-Location dist; tar -czf ..\\mattermost-dekont-plugin-1.0.0-linux.tar.gz *; Pop-Location"
             ],
             "group": "build",
             "dependsOn": "Build Mattermost Plugin",
@@ -57,16 +63,31 @@
         {
             "label": "Clean Build",
             "type": "shell",
-            "command": "powershell",
+            "command": "bash",
             "args": [
-                "-Command",
-                "Remove-Item -Force -ErrorAction SilentlyContinue plugin.exe, *.tar.gz; Remove-Item -Recurse -Force -ErrorAction SilentlyContinue dist/"
+                "-c",
+                "rm -f plugin *.tar.gz && rm -rf dist/"
             ],
             "group": "build",
             "presentation": {
                 "echo": true,
                 "reveal": "silent",
                 "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Build and Bundle for Linux",
+            "type": "shell",
+            "command": "powershell",
+            "args": ["-ExecutionPolicy", "Bypass", "-File", "./build-linux.ps1"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
                 "panel": "shared",
                 "showReuseMessage": true,
                 "clear": false

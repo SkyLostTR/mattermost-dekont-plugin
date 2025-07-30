@@ -1,21 +1,23 @@
 # Variables
 PLUGIN_ID = mattermost-dekont-plugin
 PLUGIN_VERSION = 1.0.0
-BUNDLE_NAME = $(PLUGIN_ID)-$(PLUGIN_VERSION).tar.gz
+BUNDLE_NAME = $(PLUGIN_ID)-$(PLUGIN_VERSION)-linux.tar.gz
+GOOS = linux
+GOARCH = amd64
 
 # Default target
 .PHONY: all
 all: build
 
-# Build the plugin
+# Build the plugin for Linux
 .PHONY: build
 build:
-	go build -o plugin.exe
+	GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o plugin
 
 # Clean build artifacts
 .PHONY: clean
 clean:
-	rm -f plugin.exe
+	rm -f plugin
 	rm -f *.tar.gz
 	rm -rf dist/
 
@@ -23,7 +25,8 @@ clean:
 .PHONY: bundle
 bundle: build
 	mkdir -p dist/server
-	cp plugin.exe dist/server/plugin-windows-amd64.exe
+	cp plugin dist/server/plugin-linux-amd64
+	chmod +x dist/server/plugin-linux-amd64
 	cp plugin.json dist/
 	cd dist && tar -czf ../$(BUNDLE_NAME) *
 

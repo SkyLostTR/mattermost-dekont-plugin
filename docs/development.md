@@ -27,7 +27,7 @@ Before starting development, ensure you have:
 
 - **Go 1.19+**: [Download Go](https://golang.org/dl/)
 - **Git**: For version control
-- **Make**: For build automation (Windows: install via Chocolatey)
+- **Make**: For build automation (available on most Linux systems)
 - **Mattermost Server**: For testing (development instance recommended)
 
 ### Environment Verification
@@ -39,7 +39,7 @@ go version
 # Check Git
 git --version
 
-# Check Make (Windows)
+# Check Make
 make --version
 ```
 
@@ -90,7 +90,7 @@ mattermost-dekont-plugin/
 
 ```
 ├── dist/                 # Distribution files
-├── plugin.exe           # Built plugin binary
+├── plugin                 # Built Linux plugin binary
 └── *.tar.gz             # Plugin bundles
 ```
 

@@ -53,4 +53,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Built with Go and Mattermost Server v6 plugin framework
 - Uses case-insensitive regex patterns for robust field matching
 - Implements proper resource management with defer statements
-- Compatible with Windows, Linux, and macOS platforms
+- Optimized for Linux deployment

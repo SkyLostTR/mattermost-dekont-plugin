@@ -11,8 +11,8 @@
    # For Linux deployment (recommended for Mattermost servers)
    $env:GOOS = "linux"; $env:GOARCH = "amd64"; go build -o dist/server/plugin-linux-amd64 .
    
-   # For Windows deployment
-   go build -o dist/server/plugin-windows-amd64.exe
+   # For Linux deployment (default)
+   GOOS=linux GOARCH=amd64 go build -o dist/server/plugin-linux-amd64
    ```
 
 2. **Create Plugin Bundle** (if not already done):
@@ -88,5 +88,5 @@ For issues or questions:
 To modify or extend the plugin:
 1. Edit `plugin.go` for core functionality
 2. Update `plugin.json` for metadata changes
-3. Rebuild using `go build -o plugin.exe`
+3. Rebuild using `GOOS=linux GOARCH=amd64 go build -o plugin`
 4. Create new bundle and re-upload

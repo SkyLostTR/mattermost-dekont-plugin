@@ -79,11 +79,12 @@ make build
 make bundle
 
 # Or manually
-go build -o plugin.exe
+GOOS=linux GOARCH=amd64 go build -o plugin
 mkdir -p dist/server
-cp plugin.exe dist/server/plugin-windows-amd64.exe
+cp plugin dist/server/plugin-linux-amd64
+chmod +x dist/server/plugin-linux-amd64
 cp plugin.json dist/
-cd dist && tar -czf ../mattermost-dekont-plugin-1.0.0.tar.gz *
+cd dist && tar -czf ../mattermost-dekont-plugin-1.0.0-linux.tar.gz *
 ```
 
 #### Step 4: Install Built Plugin
