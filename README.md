@@ -1,10 +1,66 @@
 # Mattermost PDF Dekont Parser Plugin
 
-[![CI/CD Pipeline](https://github.com/SkyLostTR/mattermost-dekont-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/SkyLostTR/mattermost-dekont-plugin/actions/workflows/ci.yml)
-[![Code Quality](https://github.com/SkyLostTR/mattermost-dekont-plugin/actions/workflows/code-quality.yml/badge.svg)](https://github.com/SkyLostTR/mattermost-dekont-plugin/actions/workflows/code-quality.yml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/SkyLostTR/mattermost-dekont-plugin)](https://goreportcard.com/report/github.com/SkyLostTR/mattermost-dekont-plugin)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Release](https://img.shields.io/github/v/release/SkyLostTR/mattermost-dekont-plugin)](https://github.com/SkyLostTR/mattermost-dekont-plugin/releases)
+<p align="center" dir="auto">
+   <a href="https://github.com/SkyLostTR/mattermost-dekont-plugin/graphs/contributors">
+     <img alt="GitHub Contributors" src="https://img.shields.io/github/contributors/SkyLostTR/mattermost-dekont-plugin" style="max-width: 100%;">
+   </a>
+   <a href="https://github.com/SkyLostTR/mattermost-dekont-plugin/issues">
+     <img alt="Issues" src="https://img.shields.io/github/issues/SkyLostTR/mattermost-dekont-plugin?color=0088ff" style="max-width: 100%;">
+   </a>
+   <a href="https://github.com/SkyLostTR/mattermost-dekont-plugin/pulls">
+     <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/SkyLostTR/mattermost-dekont-plugin?color=0088ff" style="max-width: 100%;">
+   </a>
+   <a href="https://github.com/SkyLostTR/mattermost-dekont-plugin/stargazers">
+     <img alt="GitHub stars" src="https://img.shields.io/github/stars/SkyLostTR/mattermost-dekont-plugin?color=yellow" style="max-width: 100%;">
+   </a>
+   <a href="https://github.com/SkyLostTR/mattermost-dekont-plugin/network/members">
+     <img alt="GitHub forks" src="https://img.shields.io/github/forks/SkyLostTR/mattermost-dekont-plugin?color=orange" style="max-width: 100%;">
+   </a>
+   <a href="https://github.com/SkyLostTR/mattermost-dekont-plugin/blob/main/LICENSE">
+     <img alt="License" src="https://img.shields.io/github/license/SkyLostTR/mattermost-dekont-plugin?color=blue" style="max-width: 100%;">
+   </a>
+  <a href="https://golang.org/">
+    <img alt="Go Version" src="https://img.shields.io/badge/go-1.19%2B-blue.svg" style="max-width: 100%;">
+  </a>
+  <a href="https://mattermost.com/">
+    <img alt="Mattermost Version" src="https://img.shields.io/badge/mattermost-v6%2B-green.svg" style="max-width: 100%;">
+  </a>
+    <a href="https://github.com/SkyLostTR/mattermost-dekont-plugin/actions/workflows/ci.yml">
+      <img alt="CI/CD Pipeline" src="https://github.com/SkyLostTR/mattermost-dekont-plugin/actions/workflows/ci.yml/badge.svg" style="max-width: 100%;">
+    </a>
+    <a href="https://github.com/SkyLostTR/mattermost-dekont-plugin/actions/workflows/code-quality.yml">
+      <img alt="Code Quality" src="https://github.com/SkyLostTR/mattermost-dekont-plugin/actions/workflows/code-quality.yml/badge.svg" style="max-width: 100%;">
+    </a>
+    <a href="https://goreportcard.com/report/github.com/SkyLostTR/mattermost-dekont-plugin">
+      <img alt="Go Report Card" src="https://goreportcard.com/badge/github.com/SkyLostTR/mattermost-dekont-plugin" style="max-width: 100%;">
+    </a>
+    <a href="https://github.com/SkyLostTR/mattermost-dekont-plugin/watchers">
+      <img alt="Watchers" src="https://img.shields.io/github/watchers/SkyLostTR/mattermost-dekont-plugin?color=lightgrey" style="max-width: 100%;">
+    </a>
+    <a href="https://github.com/SkyLostTR/mattermost-dekont-plugin/releases">
+      <img alt="Latest Release" src="https://img.shields.io/github/v/release/SkyLostTR/mattermost-dekont-plugin?sort=semver" style="max-width: 100%;">
+    </a>
+    <a href="https://github.com/SkyLostTR/mattermost-dekont-plugin">
+      <img alt="Last Commit" src="https://img.shields.io/github/last-commit/SkyLostTR/mattermost-dekont-plugin" style="max-width: 100%;">
+    </a>
+    <a href="https://github.com/SkyLostTR/mattermost-dekont-plugin">
+      <img alt="Top Language" src="https://img.shields.io/github/languages/top/SkyLostTR/mattermost-dekont-plugin" style="max-width: 100%;">
+    </a>
+    <a href="https://github.com/SkyLostTR/mattermost-dekont-plugin">
+      <img alt="Repo Size" src="https://img.shields.io/github/repo-size/SkyLostTR/mattermost-dekont-plugin" style="max-width: 100%;">
+    </a>
+  </p>
+
+<!-- Support Buttons -->
+<p align="center">
+  <a href="https://coff.ee/keeftraum">
+    <img src="https://img.shields.io/badge/Buy&nbsp;Me&nbsp;a&nbsp;Coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy Me a Coffee">
+  </a>
+  &nbsp;
+  <a href="https://github.com/sponsors/SkyLostTR">
+    <img src="https://img.shields.io/badge/GitHub&nbsp;Sponsor-ff69b4?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Sponsor">
+  </a>
+</p>
 
 A Mattermost plugin that automatically parses PDF bank receipts (dekont) and extracts transaction details to display them in a structured format.
 
@@ -297,6 +353,13 @@ Instead, email us at: [security@example.com]
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📞 Contact
+
+For questions, support, or collaboration:
+- **Email**: [keeftraum@protonmail.com](mailto:keeftraum@protonmail.com)
+- **GitHub**: [@SkyLostTR](https://github.com/SkyLostTR)
+- **Issues**: [Project Issues](https://github.com/SkyLostTR/mattermost-dekont-plugin/issues)
 
 ## 🏆 Acknowledgments
 
