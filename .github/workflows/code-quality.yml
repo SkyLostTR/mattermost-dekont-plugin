@@ -28,7 +28,7 @@ jobs:
         args: --timeout=5m
 
     - name: SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@master
+      uses: SonarSource/sonarqube-scan-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -43,3 +43,8 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
+
+    - name: Run Gosec Security Scanner
+      uses: securego/gosec@v2
+      with:
+        args: ./...
