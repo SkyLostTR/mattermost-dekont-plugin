@@ -32,10 +32,47 @@ New-Item -ItemType Directory -Force -Path "dist\server" | Out-Null
 Copy-Item plugin dist\server\plugin-linux-amd64
 Copy-Item plugin.json dist\
 
-# Create tar bundle
-Push-Location dist
-tar -czf "..\$BundleName" *
-Pop-Location
+# Set executable permissions using WSL/Git Bash and create tar with preserved permissions
+Write-Host "Setting executable permissions and creating bundle..."
+try {
+    # Try using WSL first
+    $wslAvailable = $false
+    try {
+        wsl --status 2>$null | Out-Null
+        $wslAvailable = $true
+    } catch {
+        # WSL not available
+    }
+    
+    if ($wslAvailable) {
+        Write-Host "Using WSL to set permissions and create tar..."
+        # Convert Windows path to WSL path
+        $wslPath = wsl wslpath -a (Get-Location).Path
+        wsl chmod +x "$wslPath/dist/server/plugin-linux-amd64"
+        wsl tar -czf "$wslPath/$BundleName" -C "$wslPath/dist" .
+        Write-Host "Bundle created with WSL (permissions preserved)" -ForegroundColor Green
+    } else {
+        # Fallback to Git Bash if available
+        try {
+            bash -c "chmod +x dist/server/plugin-linux-amd64 && tar -czf '$BundleName' -C dist ."
+            Write-Host "Bundle created with Git Bash (permissions preserved)" -ForegroundColor Green
+        } catch {
+            Write-Warning "Could not set executable permissions automatically."
+            Write-Warning "Creating bundle without proper permissions - you'll need to run 'chmod +x' on the server."
+            # Create tar bundle without preserved permissions as fallback
+            Push-Location dist
+            tar -czf "..\$BundleName" *
+            Pop-Location
+        }
+    }
+} catch {
+    Write-Warning "Could not set executable permissions automatically."
+    Write-Warning "Creating bundle without proper permissions - you'll need to run 'chmod +x' on the server."
+    # Create tar bundle without preserved permissions as fallback
+    Push-Location dist
+    tar -czf "..\$BundleName" *
+    Pop-Location
+}
 
 if (Test-Path $BundleName) {
     Write-Host "Plugin bundle created: $BundleName" -ForegroundColor Green
