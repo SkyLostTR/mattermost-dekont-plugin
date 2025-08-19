@@ -34,6 +34,7 @@ type Configuration struct {
 	MaxFileSizeMB            int    `json:"MaxFileSizeMB"`
 	CustomMessagePrefix      string `json:"CustomMessagePrefix"`
 	IncludeTimestamp         bool   `json:"IncludeTimestamp"`
+	HideCredits              bool   `json:"HideCredits"`
 	NotifyOnProcessingError  bool   `json:"NotifyOnProcessingError"`
 	ErrorNotificationMessage string `json:"ErrorNotificationMessage"`
 	EnableDebugLogging       bool   `json:"EnableDebugLogging"`
@@ -54,7 +55,7 @@ func (p *Plugin) OnActivate() error {
 	}
 
 	p.API.LogInfo("PDF Dekont Parser Plugin activated successfully",
-		"version", "1.0.0",
+		"version", "1.1.0",
 		"author", "SkyLostTR (@Keeftraum)",
 		"repository", "https://github.com/SkyLostTR/mattermost-dekont-plugin")
 
@@ -257,8 +258,10 @@ func (p *Plugin) processFileUpload(fileID string, post *model.Post) error {
 			fullMessage.WriteString(fmt.Sprintf("\n\n*İşlenme Zamanı: %s*", timestamp))
 		}
 
-		// Add credits footer
-		fullMessage.WriteString("\n\n---\n*Mattermost PDF Parser Plugin by SkyLostTR* 🚀")
+		// Add credits footer (if not hidden)
+		if !config.HideCredits {
+			fullMessage.WriteString("\n\n---\n*Mattermost PDF Parser Plugin by SkyLostTR* 🚀")
+		}
 
 		post.Message = fullMessage.String()
 		_, appErr = p.API.UpdatePost(post)

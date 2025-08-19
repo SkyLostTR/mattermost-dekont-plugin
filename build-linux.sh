@@ -4,7 +4,7 @@
 set -e
 
 PLUGIN_ID="mattermost-dekont-plugin"
-PLUGIN_VERSION="1.0.0"
+PLUGIN_VERSION=$(grep '"version"' plugin.json | sed 's/.*"version": *"\([^"]*\)".*/\1/')
 BUNDLE_NAME="${PLUGIN_ID}-${PLUGIN_VERSION}-linux.tar.gz"
 
 echo "Building Mattermost Dekont Plugin for Linux..."

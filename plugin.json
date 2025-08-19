@@ -2,7 +2,7 @@
     "id": "mattermost-dekont-plugin",
     "name": "PDF Dekont Parser",
     "description": "🏦 Automatically parses PDF bank receipts and extracts transaction details for Turkish banks. Developed by SkyLostTR (@Keeftraum) with support for 8+ major Turkish banks including İş Bankası, Garanti BBVA, Akbank, and more.",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "min_server_version": "6.0.0",
     "author": "SkyLostTR (@Keeftraum)",
     "homepage_url": "https://github.com/SkyLostTR/mattermost-dekont-plugin",
@@ -64,6 +64,13 @@
                 "display_name": "Include Processing Timestamp",
                 "type": "bool",
                 "help_text": "Add a timestamp showing when the PDF was processed by the plugin.",
+                "default": false
+            },
+            {
+                "key": "HideCredits",
+                "display_name": "Hide Plugin Credits",
+                "type": "bool",
+                "help_text": "Hide the plugin credits footer ('Mattermost PDF Parser Plugin by SkyLostTR 🚀') from processed messages.",
                 "default": false
             },
             {
